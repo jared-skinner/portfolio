@@ -34,6 +34,27 @@ void createAttribute()
 
 }
 
+void parseFileLine(char * line, int line_length)
+{
+	int i;
+
+	for (i = 0; i < line_length; i++)
+	{
+		switch (line[i])
+		{
+			case '<':
+				break;
+
+			case '>':
+				break;
+
+
+			case '=':
+				break;
+		}
+	}
+}
+
 
 int main(int argc, char ** argv)
 {
@@ -75,8 +96,11 @@ int main(int argc, char ** argv)
 		nread = fread(buf, 1, sizeof(buf), file) > 0;
 
 
-		// parse line figure out what's on it.  This could be anything from
-		// just a label to label, value, end label, attributes.  Tons of stuff..
+		// parse line figure out what's on it.  This could be
+		// a label, value, end label, attributes.  Tons of stuff..
+
+		parseFileLine(buf, CHUNK);
+
 		createRootNode(&root_node);
 
 
