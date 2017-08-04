@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define PROD_NAME "xml_parser"
+#define VERSION "0.0.1.0"
 #define MAX_FILE_PATH 2048
 #define MAX_NODE_VALUE 1024
 #define MAX_NODE_NAME 1024
