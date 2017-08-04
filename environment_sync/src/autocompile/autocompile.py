@@ -1,18 +1,43 @@
-import sys 
-import shutil
-import distutils
-from distutils import dir_util
-import re
+'''
+autocompile.py
+
+This script continuously listens for "request" to compile.  Requests are
+submitted by modifying the file titled "command".  This script is designed to be
+used in conjunction with another script (see "send_make_command.py") tied in to
+your favorite text editor).  Note, this script does not use locking of any kind.
+This could result in race conditions.
+
+The request come in two parts:
+
+    1. Compile destination
+
+        The folder where compilation should take place.
+
+    2. Compile command
+
+        The command to send to use for building.
+
+            make   - perform "make"
+
+            remake - perform "make clean && make"
+'''
+
+
+# python standard modules
 import os
 import argparse
-import subprocess
 import time
 
+# my modules
 import mk
 import rmk
 
 
 def readCompileCommand():
+    '''
+    Read in command file and clear contents for next cycle
+    '''
+
     # check if compile file exists
     if not os.path.isfile('command'):
         return False
@@ -33,6 +58,10 @@ def readCompileCommand():
 
 
 def executeCommand(compile_dest, compile_command):
+    '''
+    execute command pulled from "command" file
+    '''
+
     os.chdir(compile_dest)
     # call make
     if compile_command == "make":
@@ -48,6 +77,10 @@ def executeCommand(compile_dest, compile_command):
 
 
 def main():
+    '''
+    read "command" file and compile software from now till the end of time
+    '''
+
     while True:
         time.sleep(1)
 
@@ -65,4 +98,3 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     main()
-

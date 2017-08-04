@@ -1,20 +1,17 @@
-#! /usr/bin/python3
-
 """
-Copy files from an SVN directory to an full monarch environment.  This script
-ties in nicely to vim's plugin neomake which will call this script every time a
-file saves.  This script will copy an entire OpenNet copy over to an environment,
-or just a single file.
+filesync.py
+
+Copy files from an repo directory to an full environment.  This script ties in
+nicely to vim's plugin neomake which will call this script every time a file
+saves.  This script will copy an entire OpenNet copy over to an environment, or
+just a single file.
 """
 
-import sys 
 import shutil
-import distutils
 from distutils import dir_util
 import re
 import os
 import argparse
-import smartdest
 
 
 def copytree(src, dst, symlinks=False, ignore=None):
@@ -27,8 +24,7 @@ def copytree(src, dst, symlinks=False, ignore=None):
     syslinks -- if true, preserve symlinks.  if false, copy symlink contents
     ignore   -- ignore specified directories
 
-    Returns: none
-
+    returns: none
     """
 
     for item in os.listdir(src):
@@ -46,11 +42,11 @@ def can_copy_to_dest():
     different OpenNet copy has been copied over to the dest, prompt the user on
     whether or not it is ok to copy.
 
-    Returns: bool
+    returns: bool
     """
 
     # get src directory
-    r = re.search(".*?(OpenNet|OpenOTS|OpenSVC)/(.*?)/", dest_file)
+    r = re.search(".*?(Prod1|Prod2|Prod3)/(.*?)/", dest_file)
     print(dest_file)
     if r:
         directory = r.group(2)
@@ -85,14 +81,14 @@ def can_copy_to_dest():
                 print("valid answers are \"y\" and \"n\"")
     else:
         #TODO: do a product, path in the src_file so we can write from multiple
-        # svn projects without having to switch
+        # projects without having to switch
         src_file = open(src_file_path, 'w')
         src_file.write(directory)
         src_file.close()
         return True
 
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser(description='filesync', prog="filesync.py")
     parser.add_argument('-v', '--version', action='version', version='%(prog)s 0.0.1.0')
     parser.add_argument('-f', help='Sync single file, by default all files are copied')
@@ -100,9 +96,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.f:
-        r = re.search("(.*OpenOTS/.*?/)", args.f)
+        r = re.search("(.*Prod1/.*?/)", args.f)
         if r:
-            dest_file = r.group(1) + "monarch/dest.fs"
+            dest_file = r.group(1) + "/dest.fs"
         else:
             r = re.search("(.*Open[a-zA-Z]+/.*?/)", args.f)
             if r:
@@ -138,7 +134,7 @@ if __name__ == '__main__':
     if args.f:
         #file path
 
-        r = re.search(".*OpenOTS/.*?/(.*)", args.f)
+        r = re.search(".*Prod1/.*?/(.*)", args.f)
         if r:
             file_path = r.group(1)
             target = targetdir + file_path
@@ -146,7 +142,7 @@ if __name__ == '__main__':
             r = re.search(".*Open[a-zA-Z]+/.*?/(.*)", args.f)
             if r:
                 file_path = r.group(1)
-                target = targetdir + "monarch/" + file_path
+                target = targetdir + file_path
 
         print("src: " + args.f)
         print("target: " + target)
@@ -154,15 +150,20 @@ if __name__ == '__main__':
         print("copy complete!")
     else:
         #src path
-        r = re.search("(.*OpenOTS/.*?/)", dest_file)
+        r = re.search("(.*Prod1/.*?/)", dest_file)
         if r:
-            src_path = r.group(1) + "monarch/"
+            src_path = r.group(1)
         else:
             r = re.search("(.*Open[a-zA-Z]+/.*?/)", dest_file)
             if r:
                 src_path = r.group(1)
 
         print("src: " + src_path)
-        print("target: " + targetdir + "monarch/")
-        dir_util.copy_tree(src_path, targetdir + "monarch/")
+        print("target: " + targetdir)
+        dir_util.copy_tree(src_path, targetdir)
         print("copy complete!")
+
+
+if __name__ == '__main__':
+    main()
+
