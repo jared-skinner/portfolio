@@ -46,27 +46,74 @@ int parseFileLine(char * line, int line_length)
 	int i, err;
 	char node_name[MAX_NODE_NAME];
 	regex_t start_tag;
+	regex_t end_tag;
+	regex_t full_tag;
+	// TODO: 5 is the max number of groups to match.  Get rid of the magic
+	// number!
+	regmatch_t groupArray[5];
 
-	if(regcomp(&start_tag, "<[a-zA-Z0-9_]*>", REG_EXTENDED) != 0)
+	// compile regular expressions
+	// TODO: we really only need to compile these once, find a more efficent way
+	// of doing this
+	if(regcomp(&start_tag, "^\\s*<(\\w*)>\\s*$", REG_EXTENDED) != 0)
 	{
 		printf("Failed to compile regex");
 		return FAILURE;
 	}
 
-	
+	if(regcomp(&end_tag, "^\\s*<\\/\\w*>\\s*$", REG_EXTENDED) != 0)
+	{
+		printf("Failed to compile regex");
+		return FAILURE;
+	}
+
+	if(regcomp(&full_tag, "^\\s*<(\\w*)>(.*)<\\/\\w*>\\s*$", REG_EXTENDED) != 0)
+	{
+		printf("Failed to compile regex");
+		return FAILURE;
+	}
+
+
+
+
+	// match line
+	if (regexec(&full_tag, line, 1, groupArray, 0) == 0)
+	{
+		for (i = 0; i < 5; i++)
+		{
+			if (groupArray[i].rm_so == (size_t)-1)
+				break; // No more groups
+
+			char sourceCopy[strlen(line) + 1];
+			strcpy(sourceCopy, line);
+			sourceCopy[groupArray[i].rm_eo] = 0;
+			printf("Group %u: [%2u-%2u]: %s\n", i, groupArray[i].rm_so, groupArray[i].rm_eo, sourceCopy + groupArray[i].rm_so);
+		}
+
+		printf("Found full tag!\n");
+		printf("%s\n\n\n", line);
+		return SUCCESS;
+	}
+
+
 	if (regexec(&start_tag, line, 0, NULL, 0) == 0)
 	{
 		printf("Found start tag!\n");
 		printf("%s\n\n\n", line);
 		return SUCCESS;
 	}
-	else
+
+	if (regexec(&end_tag, line, 0, NULL, 0) == 0)
 	{
-		if (err == REG_NOMATCH)
-			printf("Regular expression did not match.\n");
-		else if (err == REG_ESPACE)
-			printf("Ran out of memory.\n");
+		printf("Found end tag!\n");
+		printf("%s\n\n\n", line);
+		return SUCCESS;
 	}
+
+
+
+
+
 
 	return SUCCESS;
 }
@@ -76,9 +123,9 @@ int main(int argc, char ** argv)
 {
 	int i;
 	FILE * file;
-	char buf[CHUNK];
+	char * line;
 	char file_path[MAX_FILE_PATH];
-	size_t nread;
+	size_t bytes_read, len;
 	struct xml_node root_node;
 	int read_file_path = 0;
 
@@ -131,16 +178,12 @@ int main(int argc, char ** argv)
 		return FAILURE;
 	}
 
-	nread = fread(buf, 1, sizeof(buf), file);
-	while (nread > 0)
+	while (getline(&line, &len, file) != -1)
 	{
-		nread = fread(buf, 1, sizeof(buf), file) > 0;
-
-
 		// parse line figure out what's on it.  This could be
 		// a label, value, end label, attributes.  Tons of stuff..
 
-		parseFileLine(buf, CHUNK);
+		parseFileLine(line, CHUNK);
 
 		//createRootNode(&root_node);
 	}
