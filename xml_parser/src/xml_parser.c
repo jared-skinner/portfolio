@@ -43,33 +43,29 @@ void createAttribute()
 
 int parseFileLine(char * line, int line_length)
 {
-	int i;
-	int start_tag = 0;
-	int end_tag = 0;
+	int i, err;
 	char node_name[MAX_NODE_NAME];
-	char * pattern = "<";
+	regex_t start_tag;
 
-	for (i = 0; i < line_length; i++)
+	if(regcomp(&start_tag, "<[a-zA-Z0-9_]*>", REG_EXTENDED) != 0)
 	{
-		switch (line[i])
-		{
-			case '<':
-				if (start_tag == 1)
-					return FAILURE;
+		printf("Failed to compile regex");
+		return FAILURE;
+	}
 
-				start_tag = 1;
-
-				break;
-
-			case '>':
-				break;
-
-			case '/':
-				break;
-
-			case '=':
-				break;
-		}
+	
+	if (regexec(&start_tag, line, 0, NULL, 0) == 0)
+	{
+		printf("Found start tag!\n");
+		printf("%s\n\n\n", line);
+		return SUCCESS;
+	}
+	else
+	{
+		if (err == REG_NOMATCH)
+			printf("Regular expression did not match.\n");
+		else if (err == REG_ESPACE)
+			printf("Ran out of memory.\n");
 	}
 
 	return SUCCESS;
@@ -146,10 +142,7 @@ int main(int argc, char ** argv)
 
 		parseFileLine(buf, CHUNK);
 
-		createRootNode(&root_node);
-
-
-		printf("%s\n", buf);
+		//createRootNode(&root_node);
 	}
 
 

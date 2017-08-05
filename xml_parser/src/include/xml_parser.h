@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <regex.h>
 
 #define PROD_NAME "xml_parser"
 #define VERSION "0.0.1.0"
@@ -43,4 +44,5 @@ struct xml_attribute {
 static void printUsageStatement();
 
 
+void printVersionStatement();
 
