@@ -58,7 +58,7 @@ void parseFileLine(char * line, int line_length)
 
 int main(int argc, char ** argv)
 {
-	int i;
+	int i, interactive;
 	FILE * file;
 	char buf[CHUNK];
 	char file_path[MAX_FILE_PATH];
@@ -79,6 +79,13 @@ int main(int argc, char ** argv)
 			printUsageStatement();
 			return SUCCESS;
 		}
+
+		if (strcmp(argv[i], "--interactive"))
+		{
+			interactive = TRUE;
+		}
+
+
 		
 	}
 
@@ -102,10 +109,17 @@ int main(int argc, char ** argv)
 		parseFileLine(buf, CHUNK);
 
 		createRootNode(&root_node);
-
-
-		printf("%s\n", buf);
 	}
+
+
+	if (interactive)
+	{
+		interactive_shell();
+	}
+
+
+
+
 
 
 	fclose(file);
