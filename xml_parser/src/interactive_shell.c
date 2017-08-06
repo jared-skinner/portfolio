@@ -18,7 +18,7 @@ void interactive_shell()
 {
 	char character;
 	int ready_for_command = TRUE;
-	struct xml_node * current_node;
+	xml_node * current_node;
 
 	while (TRUE)
 	{

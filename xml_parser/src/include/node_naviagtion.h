@@ -19,7 +19,7 @@
  *
  *     FAILURE - We failed to find a child node
  */
-int getChildNode(struct xml_node * current_node, struct xml_node ** child_node);
+int getChildNode(xml_node * current_node, xml_node ** child_node);
 
 
 /**
@@ -39,7 +39,7 @@ int getChildNode(struct xml_node * current_node, struct xml_node ** child_node);
  *
  *     FAILURE - We failed to find the next sibling node
  */
-int getNextSiblingNode(struct xml_node * current_node, struct xml_node ** sibling_node);
+int getNextSiblingNode(xml_node * current_node, xml_node ** sibling_node);
 
 
 /**
@@ -58,7 +58,7 @@ int getNextSiblingNode(struct xml_node * current_node, struct xml_node ** siblin
  *
  *     FAILURE - We failed to find the next sibling node
  */
-int getPreviousSiblingNode(struct xml_node * current_node, struct xml_node ** sibling_node);
+int getPreviousSiblingNode(xml_node * current_node, xml_node ** sibling_node);
 
 
 /**
@@ -77,7 +77,7 @@ int getPreviousSiblingNode(struct xml_node * current_node, struct xml_node ** si
  *
  *     FAILURE - We failed to find the parent node
  */
-int getParentNode(struct xml_node * current_node, struct xml_node ** parent_node);
+int getParentNode(xml_node * current_node, xml_node ** parent_node);
 
 
 /**
@@ -96,6 +96,6 @@ int getParentNode(struct xml_node * current_node, struct xml_node ** parent_node
  *
  *     FAILURE - The current node is the root node
  */
-int getRootNode(struct xml_node * current_node, struct xml_node ** root_node);
+int getRootNode(xml_node * current_node, xml_node ** root_node);
 
 #endif

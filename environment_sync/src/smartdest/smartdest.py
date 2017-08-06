@@ -24,7 +24,7 @@ def smart_dest(dest_file):
 
     #build candidate array (only grab things of the form "OpenNet_)"
     for dir in dirs:
-        r = re.search("(?<=OpenNet_).*", dir)
+        r = re.search("(?<=Product_).*", dir)
         if r != None:
                 dirs_temp.append(r.group(0))
 
@@ -56,6 +56,6 @@ def smart_dest(dest_file):
     else:
         choice = dirs[0]
 
-    targetdir = "/home/jared/D/osi/OpenNet_" + choice + "/"
+    targetdir = "/home/jared/D/environment/Product_" + choice + "/"
 
     return targetdir

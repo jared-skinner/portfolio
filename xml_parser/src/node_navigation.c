@@ -1,7 +1,7 @@
 #include "node_naviagtion.h"
 
 
-int getChildNode(struct xml_node * current_node, struct xml_node ** child_node)
+int getChildNode(xml_node * current_node, xml_node ** child_node)
 {
 	if (current_node->child_node)
 	{
@@ -15,7 +15,7 @@ int getChildNode(struct xml_node * current_node, struct xml_node ** child_node)
 }
 
 
-int getNextSiblingNode(struct xml_node * current_node, struct xml_node ** sibling_node)
+int getNextSiblingNode(xml_node * current_node, xml_node ** sibling_node)
 {
 	if (current_node->child_node)
 	{
@@ -29,7 +29,7 @@ int getNextSiblingNode(struct xml_node * current_node, struct xml_node ** siblin
 }
 
 
-int getPreviousSiblingNode(struct xml_node * current_node, struct xml_node ** sibling_node)
+int getPreviousSiblingNode(xml_node * current_node, xml_node ** sibling_node)
 {
 	if (current_node->child_node)
 	{
@@ -43,7 +43,7 @@ int getPreviousSiblingNode(struct xml_node * current_node, struct xml_node ** si
 }
 
 
-int getParentNode(struct xml_node * current_node, struct xml_node ** parent_node)
+int getParentNode(xml_node * current_node, xml_node ** parent_node)
 {
 	if (current_node->child_node)
 	{
@@ -57,7 +57,7 @@ int getParentNode(struct xml_node * current_node, struct xml_node ** parent_node
 }
 
 
-int  getRootNode(struct xml_node * current_node, struct xml_node ** root_node)
+int  getRootNode(xml_node * current_node, xml_node ** root_node)
 {
 	if (current_node->root_node)
 	{

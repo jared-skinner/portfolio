@@ -13,6 +13,14 @@ static void printUsageStatement();
 
 
 /**
+ * printVersionStatement();
+ *
+ * Prints out version information
+ */
+void printVersionStatement();
+
+
+/**
  * createRootNode()
  *
  * create the root xml node
@@ -22,7 +30,7 @@ static void printUsageStatement();
  *
  * @param [in]  attributes  an array of xml attributes
  */
-void createRootNode(struct xml_node ** root_node, struct xml_attribute * attributes);
+void createRootNode(xml_node ** root_node, xml_attribute * attributes);
 
 
 /**
@@ -30,7 +38,7 @@ void createRootNode(struct xml_node ** root_node, struct xml_attribute * attribu
  *
  *
  */
-void createNextSiblingNode(struct xml_node ** new_node, struct xml_node ** current_node, struct xml_attribute * attributes);
+void createNextSiblingNode(xml_node ** new_node, xml_node ** current_node, xml_attribute * attributes);
 
 
 /**
@@ -38,7 +46,7 @@ void createNextSiblingNode(struct xml_node ** new_node, struct xml_node ** curre
  *
  *
  */
-void createChildNode(struct xml_node ** new_node, struct xml_node ** current_node, struct xml_attribute * attributes);
+void createChildNode(xml_node ** new_node, xml_node ** current_node, xml_attribute * attributes);
 
 
 /**
@@ -46,7 +54,6 @@ void createChildNode(struct xml_node ** new_node, struct xml_node ** current_nod
  *
  *
  */
-void parseFileLine(char * line, int line_length);
-
+int parseFileLine(char * line, int line_length);
 
 #endif
