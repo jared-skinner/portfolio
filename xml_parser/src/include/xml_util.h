@@ -4,10 +4,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <regex.h>
 
 #define MAX_FILE_PATH 2048
 #define MAX_NODE_VALUE 1024
 #define MAX_NODE_NAME 1024
+#define MAX_NUMBER_OF_ATTRIBUTES 100
 #define MAX_ATTRIBUTE_VALUE 1024
 #define MAX_ATTRIBUTE_NAME 1024
 #define CHUNK 1024
@@ -15,6 +17,12 @@
 #define SUCCESS 1
 #define TRUE 1
 #define FALSE 0
+
+// double linked list for xml attributes
+struct xml_attribute {
+	char attribute_name[MAX_ATTRIBUTE_NAME];
+	char attribute_value[MAX_ATTRIBUTE_VALUE];
+} xml_attribute_str;
 
 // main structure type for parsing and xml file
 struct xml_node {
@@ -25,19 +33,14 @@ struct xml_node {
 	struct xml_node * previous_sibling_node;
 	struct xml_node * next_sibling_node;
 	struct xml_node * parent_node;
+	struct xml_node * root_node;
 
 	// pointer to FIRST child node.  Once we have the first child node, we can
 	// use the sibling nodes to iterate through the rest
 	struct xml_node * child_node;
-};
 
-// double linked list for xml attributes
-struct xml_attribute {
-	char attribute_name[MAX_ATTRIBUTE_NAME];
-	char attribute_value[MAX_ATTRIBUTE_VALUE];
+	struct xml_attribute * attributes;
 
-	struct xml_attribute * next_attribute;
-	struct xml_attribute * previous_attribute;
-};
+} xml_node_str;
 
 #endif

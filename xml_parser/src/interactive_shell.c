@@ -17,14 +17,25 @@ void print_help()
 void interactive_shell()
 {
 	char character;
+	int ready_for_command = TRUE;
 	struct xml_node * current_node;
 
 	while (TRUE)
 	{
-		printf("\n");
-		printf("> ");
-		character = getchar();
-		getchar();
+		if (ready_for_command == TRUE)
+		{
+			printf("\n");
+			printf("> ");
+			character = getchar();
+			ready_for_command = FALSE;
+		}
+
+		// we only want to consume one character at a time.  If the user entered
+		// more than one command, ignore all the rest.
+		if (getchar() == '\n')
+			ready_for_command = TRUE;
+		else
+			continue;
 
 		switch (character)
 		{
@@ -61,9 +72,8 @@ void interactive_shell()
 				break;
 
 			case 'o':
-				// TODO: write this function!
-				//getRootNode(current_node, &current_node);
-				printf("parent node!\n");
+				getRootNode(current_node, &current_node);
+				printf("root node!\n");
 				break;
 
 			default:
@@ -75,5 +85,3 @@ void interactive_shell()
 			break;
 	}
 }
-
-

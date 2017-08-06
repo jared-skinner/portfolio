@@ -1,11 +1,5 @@
 #include "node_naviagtion.h"
 
-void getAttribute()
-{
-
-
-}
-
 
 int getChildNode(struct xml_node * current_node, struct xml_node ** child_node)
 {
@@ -19,7 +13,6 @@ int getChildNode(struct xml_node * current_node, struct xml_node ** child_node)
 		return FAILURE;
 	}
 }
-
 
 
 int getNextSiblingNode(struct xml_node * current_node, struct xml_node ** sibling_node)
@@ -50,8 +43,6 @@ int getPreviousSiblingNode(struct xml_node * current_node, struct xml_node ** si
 }
 
 
-
-
 int getParentNode(struct xml_node * current_node, struct xml_node ** parent_node)
 {
 	if (current_node->child_node)
@@ -61,6 +52,23 @@ int getParentNode(struct xml_node * current_node, struct xml_node ** parent_node
 	}
 	else
 	{
+		return FAILURE;
+	}
+}
+
+
+int  getRootNode(struct xml_node * current_node, struct xml_node ** root_node)
+{
+	if (current_node->root_node)
+	{
+		*root_node = current_node->root_node;
+		return SUCCESS;
+	}
+	else
+	{
+		// the only node which should not have root node assigned is the root
+		// node itself.  In this case return FAILURE, to indicate as much.
+		*root_node = current_node;
 		return FAILURE;
 	}
 }

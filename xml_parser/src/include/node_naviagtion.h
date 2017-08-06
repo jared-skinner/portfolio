@@ -1,11 +1,7 @@
 #ifndef __NODE_NAVIGATION__
 #define __NODE_NAVIGATION__
 
-
 #include "xml_util.h"
-
-void getAttribute();
-
 
 
 /**
@@ -24,7 +20,6 @@ void getAttribute();
  *     FAILURE - We failed to find a child node
  */
 int getChildNode(struct xml_node * current_node, struct xml_node ** child_node);
-
 
 
 /**
@@ -47,7 +42,6 @@ int getChildNode(struct xml_node * current_node, struct xml_node ** child_node);
 int getNextSiblingNode(struct xml_node * current_node, struct xml_node ** sibling_node);
 
 
-
 /**
  * getPreviousSiblingNode()
  *
@@ -55,7 +49,7 @@ int getNextSiblingNode(struct xml_node * current_node, struct xml_node ** siblin
  *
  * @param [in]  current_node  - The node we want to find the previous sibling of
  *
- * @param [out] child_node    - The previous sibling node
+ * @param [out] sibling_node  - The previous sibling node
  *
  *
  * @return
@@ -67,7 +61,6 @@ int getNextSiblingNode(struct xml_node * current_node, struct xml_node ** siblin
 int getPreviousSiblingNode(struct xml_node * current_node, struct xml_node ** sibling_node);
 
 
-
 /**
  * getParentNode()
  *
@@ -75,7 +68,7 @@ int getPreviousSiblingNode(struct xml_node * current_node, struct xml_node ** si
  *
  * @param [in]  current_node  - The node we want to find the parent of
  *
- * @param [out] child_node    - The parent node
+ * @param [out] parent_node   - The parent node
  *
  *
  * @return
@@ -85,5 +78,24 @@ int getPreviousSiblingNode(struct xml_node * current_node, struct xml_node ** si
  *     FAILURE - We failed to find the parent node
  */
 int getParentNode(struct xml_node * current_node, struct xml_node ** parent_node);
+
+
+/**
+ * getParentNode()
+ *
+ * for a given node, get child node.
+ *
+ * @param [in]  current_node  - The node we want to find the root of
+ *
+ * @param [out] root_node     - The root node
+ *
+ *
+ * @return
+ *
+ *     SUCCESS - We successfully found the root node
+ *
+ *     FAILURE - The current node is the root node
+ */
+int getRootNode(struct xml_node * current_node, struct xml_node ** root_node);
 
 #endif
